@@ -16,7 +16,7 @@ func main() {
 	group := engine.Group("goods")
 	group.Get("/find", func(ctx *msgo.Context) {
 		goods := &model.Goods{Name: "一个花瓶", Id: 1008}
-		ctx.JSON(http.StatusOK, &model.Result{Code: 1000, Msg: "success", Data: goods})
+		_ = ctx.JSON(http.StatusOK, &model.Result{Code: 1000, Msg: "success", Data: goods})
 	})
 	listen, _ := net.Listen("tcp", ":9111")
 	server := grpc.NewServer()
