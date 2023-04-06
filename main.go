@@ -1,8 +1,8 @@
 package main
 
 import (
-	"github.com/liyuanwu2020/goods/api"
 	"github.com/liyuanwu2020/goods/model"
+	"github.com/liyuanwu2020/micro.go.service/pb"
 	"github.com/liyuanwu2020/msgo"
 	"google.golang.org/grpc"
 	"log"
@@ -11,7 +11,6 @@ import (
 )
 
 func main() {
-
 	engine := msgo.Default()
 	group := engine.Group("goods")
 	group.Get("/find", func(ctx *msgo.Context) {
@@ -20,9 +19,8 @@ func main() {
 	})
 	listen, _ := net.Listen("tcp", ":9111")
 	server := grpc.NewServer()
-	api.RegisterGoodsApiServer(server, &api.GoodsRpcService{})
+	pb.RegisterUserServiceServer(server, &pb.UserService{})
 	err := server.Serve(listen)
 	log.Println(err)
-
 	engine.Run(":9002")
 }
