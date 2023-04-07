@@ -2,7 +2,8 @@ package main
 
 import (
 	"github.com/liyuanwu2020/goods/model"
-	"github.com/liyuanwu2020/micro.go.service/pb"
+	"github.com/liyuanwu2020/goods/service"
+	"github.com/liyuanwu2020/micro.service.pb/go/user"
 	"github.com/liyuanwu2020/msgo"
 	"google.golang.org/grpc"
 	"log"
@@ -19,7 +20,7 @@ func main() {
 	})
 	listen, _ := net.Listen("tcp", ":9111")
 	server := grpc.NewServer()
-	pb.RegisterUserServiceServer(server, &pb.UserService{})
+	user.RegisterUserServiceServer(server, &service.UserService{})
 	err := server.Serve(listen)
 	log.Println(err)
 	engine.Run(":9002")
