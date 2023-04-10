@@ -8,7 +8,6 @@ import (
 	"github.com/liyuanwu2020/msgo/register"
 	"github.com/liyuanwu2020/msgo/rpc"
 	"google.golang.org/grpc"
-	"log"
 	"net/http"
 )
 
@@ -26,21 +25,11 @@ func main() {
 	//user.RegisterUserServiceServer(server, &service.UserService{})
 	//err := server.Serve(listen)
 	//log.Println(err)
-
-	nacosClient, nacosErr := register.CreateNacosClient()
+	nacos := register.MsNacosDefault()
+	nacosErr := nacos.RegisterService("user", "localhost", 9111)
 	if nacosErr != nil {
 		panic(nacosErr)
 	}
-	conf := register.NacosServiceConfig{
-		Ip:          "localhost",
-		Port:        9111,
-		ServiceName: "user",
-	}
-	registerService, nacosErr := register.NacosServiceRegister(nacosClient, conf)
-	if nacosErr != nil {
-		panic(nacosErr)
-	}
-	log.Println(registerService)
 
 	grpcServer, grpcErr := rpc.NewGrpcServer(":9111")
 	grpcServer.Register(func(g *grpc.Server) {
