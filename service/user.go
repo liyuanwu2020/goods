@@ -12,15 +12,13 @@ type UserService struct {
 
 var times int
 
-func (u UserService) Search(ctx context.Context, request *user.UserRequest) (*user.UserResponse, error) {
-	log.Printf("grpc request [%d]", times)
-	defer func() {
-		times++
-	}()
-	username := "李四"
+func (s UserService) Search(context.Context, *user.UserRequest) (*user.UserResponse, error) {
+	times++
+	log.Printf("UserService run [%d] times \n", times)
+	name := "小明"
 	return &user.UserResponse{
-		Id:       100,
-		Username: &username,
-		Area:     []string{"1003", "2048"},
+		Id:       200,
+		Username: &name,
+		Area:     []string{"1004", "3009"},
 	}, nil
 }
